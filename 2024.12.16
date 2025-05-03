@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>AI 皮膚病變診斷系統</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    h2 { color: #2c3e50; }
+    #result, #screenshot { border: 1px solid #ccc; padding: 10px; margin-top: 20px; }
+    img { max-width: 300px; display: block; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>AI 皮膚病變診斷系統</h2>
+
+  <label for="imageUpload">請上傳皮膚影像：</label>
+  <input type="file" id="imageUpload" accept="image/*"><br>
+
+  <div id="previewContainer"></div>
+  <button onclick="analyze()">進行 AI 分析</button>
+
+  <div id="result"></div>
+
+  <div id="screenshot">
+    <h3>診斷報告截圖範例：</h3>
+    <img src="https://via.placeholder.com/500x300.png?text=診斷報告畫面" alt="診斷截圖">
+  </div>
+
+  <script>
+    function analyze() {
+      const fileInput = document.getElementById('imageUpload');
+      const resultDiv = document.getElementById('result');
+      const previewContainer = document.getElementById('previewContainer');
+
+      if (fileInput.files.length === 0) {
+        alert("請先選擇圖片！");
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        previewContainer.innerHTML = `<img src="${e.target.result}" alt="影像預覽">`;
+
+        // 模擬 AI 回傳結果
+        const aiResult = {
+          label: "黑色素瘤 (Melanoma)",
+          confidence: "89%",
+          snomedCode: "254637007"
+        };
+
+        resultDiv.innerHTML = `
+          <h3>AI 診斷結果：</h3>
+          <p><strong>診斷：</strong> ${aiResult.label}</p>
+          <p><strong>信心指數：</strong> ${aiResult.confidence}</p>
+          <p><strong>SNOMED CT：</strong> ${aiResult.snomedCode}</p>
+        `;
+      };
+
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
